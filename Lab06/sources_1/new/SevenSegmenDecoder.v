@@ -1,6 +1,6 @@
 module SevenSegmentDecoder (
-    input  wire [3:0] D,    // Input nibble (0-F hex)
-    output reg  [6:0] S     // Active-low segments (0 = on) for Basys-3 [gfedcba]
+    input  wire [3:0] D,    
+    output reg  [6:0] S     
 );
 
     always @(*) begin
