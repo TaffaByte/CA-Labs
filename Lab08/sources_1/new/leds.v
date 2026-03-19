@@ -1,21 +1,23 @@
 `timescale 1ns / 1ps
-
-module Leds (
-    input  logic        clk,
-    input  logic        rst,
-    input  logic        writeEnable,
-    input  logic [31:0] writeData,
-    output logic [15:0] leds
+module leds (
+    input             clk,
+    input             rst,
+    input      [31:0] writeData,
+    input             writeEnable,
+    output     [15:0] leds
 );
+    reg [7:0] led_low;
+    reg [7:0] led_high;
 
-    // Single 16-bit register is cleaner than two 8-bit registers
-    always_ff @(posedge clk) begin
+    always @(posedge clk) begin
         if (rst) begin
-            leds <= 16'h0000;
+            led_low  <= 8'h0;
+            led_high <= 8'h0;
         end else if (writeEnable) begin
-            // Directly mapping the lower half of the 32-bit bus
-            leds <= writeData[15:0];
+            led_low  <= writeData[7:0];
+            led_high <= writeData[15:8];
         end
     end
 
+    assign leds = {led_high, led_low};
 endmodule
