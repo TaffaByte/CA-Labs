@@ -19,7 +19,3 @@ module Leds (
     end
 
 endmodule
-
-    // Combine bytes into 16-bit LED output
-    assign leds = {led_high, led_low};
-endmodule
