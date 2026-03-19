@@ -1,31 +1,21 @@
 `timescale 1ns / 1ps
 
-module switches(
-    input clk, rst,
-    input [15:0] btns,
-    input [31:0] writeData,
-    input writeEnable,
-    input readEnable,
-    input [29:0] memAddress,
-    input [15:0] switches,
-
-    output reg [31:0] readData
+module Switches (
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        readEnable,
+    input  logic [15:0] switches,
+    output logic [31:0] readData
 );
-    // Store switch values as individual bytes for byte-addressable access
-    wire [7:0] sw_bytes [0:3];
-    assign sw_bytes[0] = switches[7:0];
-    assign sw_bytes[1] = switches[15:8];
-    assign sw_bytes[2] = 8'b0;
-    assign sw_bytes[3] = 8'b0;
 
-    // On clock edge, assemble 4 bytes into 32-bit read output
-    always @(posedge clk) begin
-        if (rst)
-            readData <= 32'b0;
-        else if (readEnable)
-            readData <= {sw_bytes[memAddress + 3],
-                         sw_bytes[memAddress + 2],
-                         sw_bytes[memAddress + 1],
-                         sw_bytes[memAddress]};
+    // On clock edge, zero-extend the 16-bit switches to 32-bit output
+    always_ff @(posedge clk) begin
+        if (rst) begin
+            readData <= 32'h0;
+        end else if (readEnable) begin
+            // {16'b0, switches} automatically puts zeros in the upper 16 bits
+            readData <= {16'h0000, switches};
+        end
     end
+
 endmodule
