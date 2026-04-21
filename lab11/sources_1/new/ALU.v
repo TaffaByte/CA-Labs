@@ -10,10 +10,8 @@ module ALU (
     localparam OP_AND = 4'b0000;
     localparam OP_OR  = 4'b0011;
     localparam OP_ADD = 4'b0010;
-    localparam OP_SUB = 4'b0110; // Wait, original code had 0001 for SUB? 
-                                 // Correcting based on standard RISC-V:
-                                 // User code had: 0000:+, 0001:-, 0010:&, 0011:|, 0100:^, 0101:<<, 0110:>>
-                                 // I will stick EXACTLY to user's logic map to prevent breaking it.
+    localparam OP_SUB = 4'b0110;
+                                 
 
     localparam ADD  = 4'b0000;
     localparam SUB  = 4'b0001;
