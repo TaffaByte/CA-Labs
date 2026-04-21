@@ -37,7 +37,6 @@ module DataMemory (
     
     always @(posedge clk) begin
         if (rst) begin
-            // Synchronous reset handled differently to allow BRAM inference
             for (i = 0; i < 512; i = i + 1) begin
                 memory[i] <= 32'b0;
             end
